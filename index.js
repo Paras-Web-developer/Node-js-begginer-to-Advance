@@ -1,9 +1,14 @@
-const fs = require("fs");
-// Read File 
-const fileContent = fs.readFileSync("./file.txt","utf-8")
-console.log(fileContent);
-// Write File 
-fs.writeFileSync("writeFile.txt","Hi this is write file");
-// than read file 
-let writeFile=fs.readFileSync('writeFile.txt','utf-8')
-console.log(writeFile)
+const a = 10;
+const b = 20;
+console.log(a + b);
+
+// install nodemon  
+// npm i -g nodemon
+// nodemon index.js // run the script and restart it whenever changes are made 
+
+// "scripts": {
+//     "start": "nodemon index.js", <<<<<
+//     "test": "echo \"Error: no test specified\" && exit 1"
+//   },
+
+// Note : node module make easy to code run process 
