@@ -1,18 +1,16 @@
 {
-  "name": "node-start",
+  "name": "node-js-begginer-to-advance",
   "version": "1.0.0",
-  "description": "Learn node js begginer to advance",
+  "description": "",
   "main": "index.js",
   "scripts": {
     "start": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Paras Grover",
+  "keywords": [],
+  "author": "",
   "license": "ISC",
   "devDependencies": {
     "nodemon": "^3.0.1"
-  },
-  "dependencies": {
-    "express": "^4.18.2"
   }
 }
