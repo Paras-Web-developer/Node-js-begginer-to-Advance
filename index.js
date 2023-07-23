@@ -4,13 +4,27 @@ const data = JSON.parse(fs.readFileSync("./Data.json", "utf-8"));
 const products = data.products;
 const express = require("express");
 const server = express();
+
+
+// API - Endpoint -Route
 server.get("/", (req, res) => {
-  // res.send(index);
-  // res.end(index);
-  // res.sendFile("C:\Users\DELL\Documents\GitHub\Node-js-begginer-to-Advance\index.html")
-  // res.json(data)
-  // res.sendStatus(404);
-  res.status(201).send(index)
+  res.status(200).send({ Type: "GET" });
+});
+
+server.post("/post", (req, res) => {
+  res.send({ Type: "POST" });
+});
+
+server.put("/put", (req, res) => {
+  res.json({ Type: "PUT" });
+});
+
+server.delete("/delete", (req, res) => {
+  res.json({ Type: "DELETE" });
+});
+
+server.patch("/patch", (req, res) => {
+  res.json({ Type: "PATCH" });
 });
 
 server.listen(8080, () => {
