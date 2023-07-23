@@ -12,11 +12,13 @@ const server = http.createServer((req, res) => {
     res.setHeader("Content-Type", "application/json");
     res.end(JSON.stringify(data));
   } else if (req.url.startsWith("/product")) {
-    const id = req.url.split("/")[2];
+    const url = req.url.split("/");
+    console.log(url);
+    const value = url.length - 1;
+    const id = url[value];
     console.log(id);
-
     const prd = products.find((p) => p.id === +id);
-    console.log(prd);
+    // console.log(prd);
     const modified = indexHtml
       .replace("**title**", prd.title)
       .replace("rating", prd.rating)
