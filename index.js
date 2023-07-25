@@ -6,78 +6,66 @@ const express = require("express");
 const morgan = require("morgan"); // npm i  morgan
 const server = express();
 
-// Middle Ware (Application Level)
-// server.use((req, res, next) => {
-//   console.log(
-//     req.method,
-//     req.ip,
-//     req.hostname,
-//     new Date(),
-//     req.get("User-Agent")
-//   );
-//   next();
-// });
-
-// ^^
-// ||
-// ||
-// morgan provide all these information which i get using req
-server.use(morgan("default"));  //<<<<============================morgan
+server.use(express.json()); //express.json =======> Middleware
 
 // Middle Ware Particular Path (Router) level middle ware
+// const Auth = (req, res, next) => {
+//   console.log(req.query); // http://localhost:3000/?password=123
+//   if (req.query.password == 123) {
+//     next();
+//   } else {
+//     res.sendStatus(400);
+//   }
+// };
 
-const Auth = (req, res, next) => {
-  console.log(req.query); // http://localhost:3000/?password=123
-  if (req.body.password == 123) {
-    next();
-  } else {
-    res.sendStatus(400);
-  }
-};
-// server.use(Auth); // This middleware Auth add all routes
+// ========>>>>>>>> C R U D ======>>>>CREATE READ UPDATE DELETE
 
-// Built-in =======> middleware
-// 1. express.static
-// 2. express.json
-// 3. express.unlencoded
-
-// 1. express.static =======> Middleware
-server.use(express.static("public"));            
-
-// 2. express.json =======> Middleware
-server.use(express.json());
-
-// 3. express.unlencoded  =======> Middleware
-server.use(express.urlencoded());
-
-// API - Endpoint -Route  using params
-server.get("/product/:id", (req, res) => {     //<<<============="/product/:id"  Params
-  if (req.params.id == 5) {
-    res.status(200).send({ Type: "GET" });
-  }
-  else{
-    res.status(404).send({Type: "ERROR"})
-  }
+//Create POST /products
+server.post("/post", (req, res) => {
+  const newData = req.body;
+  products.push(newData);
+  res.json(products);
 });
 
-server.post("/post", Auth, (req, res) => {
-  console.log(req.method, req.ip, req.hostname);
-  res.send({ Type: "POST" });
+// Read GET /products
+server.get("/get", (req, res) => {
+  res.status(200).json(products);
 });
 
-server.put("/put", (req, res) => {
-  console.log(req.method, req.ip, req.hostname);
-  res.json({ Type: "PUT" });
+// Read GET /product/:id
+server.get("/get/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+  const result = products.find((p) => p.id === id);
+  res.json(result);
 });
 
-server.delete("/delete", (req, res) => {
-  console.log(req.method, req.ip, req.hostname);
-  res.json({ Type: "DELETE" });
+// UPDATE PUT /product/:id
+server.put("/put/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+  const productIndex = products.findIndex((p) => p.id === id);
+  products.splice(productIndex, 1, { ...req.body, id: id });
+  res.json("PUT");
 });
 
-server.patch("/patch", (req, res) => {
-  res.json({ Type: "PATCH" });
+// PATCH 
+server.patch("/patch/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+  const productIndex = products.findIndex((p) => p.id === id);
+  const product = products[productIndex];
+  products.splice(productIndex, 1, {...product, ...req.body});
+  res.json("PATCH");
 });
+
+
+
+server.delete("/delete/:id", (req, res) => {
+  const id = +req.params.id
+  const productIndex = products.findIndex(p=>p.id===id)
+  const product = products[productIndex];
+  products.splice(productIndex, 1)
+  res.json(product);
+});
+
 
 server.listen(3000, () => {
   console.log("server started");
